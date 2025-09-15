@@ -1,12 +1,17 @@
 import json
 from pathlib import Path
 import time
+import datetime as dt
 
 import streamlit as st
 import ccxt
 import pandas as pd
 from collections import defaultdict
 from datetime import datetime, timezone
+
+# Set page config and add build verification
+st.set_page_config(page_title="熬鹰计划（新版）", layout="wide")
+st.caption("BUILD TAG: dashboard.py entry OK — " + dt.datetime.utcnow().isoformat() + "Z")
 
 from utils import fmt_price, to_ohlcv_df
 from strategies import STRATEGY_REGISTRY

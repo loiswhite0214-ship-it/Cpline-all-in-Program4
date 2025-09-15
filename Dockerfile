@@ -1,6 +1,10 @@
 # Root-level Dockerfile to build app from repository (robust to layout)
 FROM python:3.11-slim
 
+# Force rebuild by changing this value
+ARG APP_BUILD_ID=20250915a
+ENV APP_BUILD_ID=${APP_BUILD_ID}
+
 # Install system deps
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -41,5 +45,5 @@ RUN bash -lc 'set -euo pipefail; \
 # Expose Railway expected port
 EXPOSE 8080
 
-# Start the app via Railway script
-CMD ["python", "-u", "crypto-trading-dashboard/railway_start.py"]
+# Start the app directly - force dashboard.py entry
+CMD ["bash","-lc","cd crypto-trading-dashboard && streamlit run dashboard.py --server.address 0.0.0.0 --server.port ${PORT:-8080}"]
