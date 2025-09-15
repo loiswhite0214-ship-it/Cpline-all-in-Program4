@@ -183,8 +183,34 @@ def _render_cards(signals_list: list):
         st.divider()
 
 # ========== 配置 ==========
-CFG_PATH = Path(__file__).with_name("config.json")
-cfg = json.loads(CFG_PATH.read_text(encoding="utf-8"))
+# 在多个候选路径查找 config.json，不存在则使用内置默认
+_CANDIDATE_CFG_PATHS = [
+    Path("/app/config.json"),
+    Path("/app/crypto-trading-dashboard/config.json"),
+    Path(__file__).parent / "config.json",
+]
+
+cfg = None
+for _p in _CANDIDATE_CFG_PATHS:
+    try:
+        if _p.exists():
+            cfg = json.loads(_p.read_text(encoding="utf-8"))
+            print(f"Loaded config from {_p}")
+            break
+    except Exception:
+        pass
+
+if cfg is None:
+    print("⚠️ No config.json found, using fallback defaults")
+    cfg = {
+        "product_name": "熬鹰计划",
+        "exchange": "binance",
+        "symbols": ["BTC/USDT", "ETH/USDT"],
+        "timeframes": ["4h", "1d", "1w"],
+        "strategies": [],
+        "debug": False,
+        "theme": "light",
+    }
 USER_STATE_PATH = Path(__file__).with_name("user_state.json")
 PRODUCT = cfg.get("product_name", "熬鹰计划")
 EXCHANGE_NAME = cfg.get("exchange", "binance")
