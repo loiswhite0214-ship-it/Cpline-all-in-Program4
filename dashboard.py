@@ -9,7 +9,7 @@ import pandas as pd
 from collections import defaultdict
 from datetime import datetime, timezone
 
-# Set page config and add build verification
+# Set page config and add build verification (must be first Streamlit command)
 st.set_page_config(page_title="熬鹰计划（新版）", layout="wide")
 st.caption("BUILD TAG: dashboard.py entry OK — " + dt.datetime.utcnow().isoformat() + "Z")
 
@@ -221,7 +221,6 @@ ENABLED = [s["name"] for s in cfg.get("strategies", []) if s.get("enabled")]
 ETA_TEXT = {"4h": "≈4 小时", "1d": "≈1 天", "1w": "≈1 周"}
 
 # ========== UI 顶部 ==========
-st.set_page_config(page_title=PRODUCT, layout="wide")
 st.title(PRODUCT)
 
 # 顶部自检探针：检查是否有策略被覆盖
