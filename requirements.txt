@@ -1,0 +1,7 @@
+streamlit==1.40.1
+ccxt==4.4.48
+numpy>=1.26,<2.0
+pandas>=2.2,<2.3
+pandas-ta-openbb==0.4.22
+requests==2.31.0
+python-dateutil==2.8.2
